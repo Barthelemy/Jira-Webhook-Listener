@@ -4,8 +4,11 @@
 * A small set of scripts to catch Webhook notifications from JIRA and run custom commands on a per-project basis
 *
 * Copyright (c) 2014 B Tasker
+* Modified by B von Haller (2016)
 * Released under GNU GPL V2, see LICENSE
 *
+* Framework for the webhook listener.
+* Process the requests, load plugins (aka actions) and use them.
 */
 defined('_FWLRUN') or die;
 require_once 'lib/request.php';
@@ -89,9 +92,10 @@ class JWLFW{
 	*
 	*/
 	private function loadProjConfig(){
-	    require 'config/config.php';
-	    if (isset($conf->Projects[$this->project])){
-		  $this->config = $conf->Projects[$this->project];
+	    require 'config/config.php'; // populates $configuration_array
+	    
+	    if (isset($configuration_array[$this->project])){
+		  $this->config = $configuration_array[$this->project];
 		  $this->fireon = explode(",",$this->config['fireon']);
 		  return true;
 	    }

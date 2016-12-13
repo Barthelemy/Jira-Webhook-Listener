@@ -4,6 +4,7 @@
 * A small set of scripts to catch Webhook notifications from JIRA and run custom commands on a per-project basis
 *
 * Copyright (c) 2014 B Tasker
+* Modified by B von Haller (2016)
 * Released under GNU GPL V2, see LICENSE
 *
 * Notification Email Action
@@ -89,15 +90,12 @@ class FWLemailAction{
 		      return array('','');
 		}
 
-
 		$start = "<a href='{$this->project_config['ProjectURLBase']}/$itemkey{$this->project_config['ProjectURLSuffix']}'".
 			  " target=_blank>";
-
 
 		$end = '</a>';
 		return array($start,$end);
 	  }
-
 }
 
 
@@ -161,13 +159,7 @@ class FWLemailHTML{
 
     }
 
-
     static function endHTML(){
 	echo "</body></html>";
     }
-
-
-
-
-
 }
