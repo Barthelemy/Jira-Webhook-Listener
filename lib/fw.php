@@ -14,7 +14,6 @@ defined('_FWLRUN') or die;
 require_once 'lib/request.php';
 
 
-
 class JWLFW{
 
 	private $request = false;
@@ -27,26 +26,20 @@ class JWLFW{
 	/** Entry point for the class
 	*
 	*/
-	public function init(){
-
-	    $this->request = new JWLRequest();
-	    $this->project = $this->request->getIssueProject();
-
-	    switch ($this->request->getRequestType()){
-
-		    case 'jira:issue_created':
-			  $this->newIssue();
-			break;
-
-		    case 'jira:issue_updated':
-			  $this->IssueUpdate();
-			break;		
-
-
-	    }
-
+	public function init() {
+		$this->request = new JWLRequest();
+		$this->project = $this->request->getIssueProject();
+		
+		switch ($this->request->getRequestType()) {
+			
+			case 'jira:issue_created' :
+				$this->newIssue();
+				break;
+			case 'jira:issue_updated' :
+				$this->IssueUpdate();
+				break;
+		}
 	}
-
 
 
 	/** Handle notification of a new issue
@@ -54,7 +47,7 @@ class JWLFW{
 	*/
 	private function newIssue(){
 
-	    if (!$this->loadProjConfig() || !in_array('newissue',$this->fireon)){
+	    if (!$this->loadProjConfig() || (!in_array('newissue',$this->fireon) && !in_array('*',$this->fireon))){
 		    return false;
 	    }
 
@@ -73,7 +66,7 @@ class JWLFW{
 	*/
 	private function IssueUpdate(){
 
-	    if (!$this->loadProjConfig() || !in_array('updatedissue',$this->fireon)){
+	    if (!$this->loadProjConfig() || (!in_array('updatedissue',$this->fireon) && !in_array('*',$this->fireon))){
 		    return false;
 	    }
 
@@ -84,23 +77,24 @@ class JWLFW{
 
 	    return $results;
 	}
-
-
-
-
-	/** Load the portion of the config file specific to the requested project
-	*
-	*/
-	private function loadProjConfig(){
-	    require 'config/config.php'; // populates $configuration_array
-	    
-	    if (isset($configuration_array[$this->project])){
-		  $this->config = $configuration_array[$this->project];
-		  $this->fireon = explode(",",$this->config['fireon']);
-		  return true;
-	    }
-
-	    return false;
+	
+	/**
+	 * Load the portion of the config file specific to the requested project
+	 */
+	private function loadProjConfig() {
+		require 'config/config.php'; // populates $configuration_array
+		
+		if (isset($configuration_array [$this->project])) {
+			$this->config = $configuration_array [$this->project];
+			$this->fireon = explode(",", $this->config ['fireon']);
+			return true;
+		} else if (isset($configuration_array ['*'])) {
+			$this->config = $configuration_array ['*'];
+			$this->fireon = explode(",", $this->config ['fireon']);
+			return true;
+		}
+		
+		return false;
 	}
 
 

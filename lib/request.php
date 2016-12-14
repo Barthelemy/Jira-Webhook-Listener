@@ -18,15 +18,12 @@ class JWLRequest{
 	private $request = false;
 	private $request_type = false;
 
-
 	function __construct(){
 	      $this->loadRequest(); // Process the request data
 	}
 
-
-
-	/** Parse the JSON we should have received in POST
-	*
+	/** 
+	* Parse the JSON we should have received in POST
 	*/
 	function loadRequest(){
 
@@ -38,46 +35,28 @@ class JWLRequest{
 		    return true;
 	      }
 
-
 	      return false;
 	}
 
-
-	/** Get the Issue from the request
-	*
-	*/
 	function getIssueObj(){
 	    return $this->request->issue;
 	}
 
-
-	/** Get the Issue Key
-	*
-	*/
 	function getIssueKey(){
 	    return $this->request->issue->key;
 	}
 
-
-	/** Get the Project the issue is associated with
-	*
-	*/
 	function getIssueProject(){
 	    return $this->request->issue->fields->project->key;
 	}
 
-
-	/** Get the Issue Summary
-	*
-	*/
 	function getIssueTitle(){
 	      return $this->request->issue->fields->summary;
 	}
+	function getIssueSummary(){
+		return getIssueTitle();
+	}
 
-
-	/** Get the Issue Type
-	*
-	*/
 	function getIssueType(){
 	    $type = $this->request->issue->fields->issuetype->name;
 	    if ($this->request->issue->fields->issuetype->subtask){
@@ -86,29 +65,39 @@ class JWLRequest{
 	    return $type;
 	}
 
-
-	/** Get the Issue Description
-	*
-	*/
 	function getIssueDescription(){
 	     return $this->request->issue->fields->description;
 	}
+	
+	function getIssueReporter(){
+		return $this->request->issue->fields->reporter->displayName;
+	}
+	
+	function getIssueAssignee(){
+		return $this->request->issue->fields->assignee->displayName;
+	}
+	
+	function getIssueCreated(){
+		return $this->request->issue->fields->created;
+	}
+	
+	function getIssueResolved(){
+		return $this->request->issue->fields->resolved;
+	}
+	
 
-	/** Get the request object
-	*
+	/** 
+	* Get the request object
 	*/
 	function getRequest(){
 	      return $this->request;
 	}
 
 
-	/** Get the event type
-	*
+	/** 
+	* Get the event type
 	*/
 	function getRequestType(){
 	      return $this->request_type;
 	}
-
-
-
 }
