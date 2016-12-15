@@ -37,7 +37,7 @@ In JIRA :
 2. Click "Create a WebHook"
 3. Give it a name. 
 4. Add a URL : `http://my.server.com/path/to/JWL/index.php?template=<template_name>`
-5. Specify which type of events should trigger the call to the webhook.
+5. Specify which type of events should trigger the call to the webhook. Feel free to let it blank and to add an event in a workflow.
 6. Do not exclude the body.
 7. Save
 

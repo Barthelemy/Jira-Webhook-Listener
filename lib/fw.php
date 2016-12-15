@@ -36,8 +36,10 @@ class JWLFW{
 				$this->newIssue();
 				break;
 			case 'jira:issue_updated' :
-				$this->IssueUpdate();
+				$this->issueUpdate();
 				break;
+			default:
+				$this->anyRequest();
 		}
 	}
 
@@ -64,7 +66,7 @@ class JWLFW{
 	/** Handle notification of a new issue
 	*
 	*/
-	private function IssueUpdate(){
+	private function issueUpdate(){
 
 	    if (!$this->loadProjConfig() || (!in_array('updatedissue',$this->fireon) && !in_array('*',$this->fireon))){
 		    return false;
@@ -76,6 +78,20 @@ class JWLFW{
 	    }
 
 	    return $results;
+	}
+	
+	
+	private function anyRequest(){
+		if (!$this->loadProjConfig() || !in_array('*',$this->fireon)){
+			return false;
+		}
+		
+		$results = array();
+		foreach ($this->config['actions'] as $action => $value){
+			$results[] = $this->fireAction($action,$value,'*');
+		}
+		
+		return $results;
 	}
 	
 	/**
