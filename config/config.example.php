@@ -32,7 +32,7 @@ $configuration_array = array (
 				'actions' => array (
 						'email' => '' // no option here
 				),
-				'ProjectURLBase' => 'http://dev8.its.cern.ch/jira/projects', // No trailing slash
+				'ProjectURLBase' => 'http://example.com/projects', // No trailing slash
 				'ProjectURLSuffix' => '.html'
 		) */
 );
