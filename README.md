@@ -78,3 +78,8 @@ In the folder "actions" copy one of the existing actions and modify it. It is pr
 
 One can easily debug the webhooks by adding to the URL called by JIRA the parameter 
 `XDEBUG_SESSION_START=ECLIPSE_DBGP` and by installing XDebug on the server as well as Eclipse PDT. 
+
+## Troubleshooting
+
+###### My webhook is not triggered by the workflow, why ? 
+Move the post-function that triggers the webhook at the end of the list of post-functions.
