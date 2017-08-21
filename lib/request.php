@@ -110,7 +110,18 @@ class JWLRequest{
 		return $url;
 	}
 	
+	function getUser() {
+		return $this->request->user->displayName;
+	}
 
+	function getChangelog() {
+		$result = "";
+		foreach ($this->request->changelog->items as $item) {
+			$result .= "Field '" . $item->field . "' : " . $item->toString . " (was : " . $item->fromString . ")\r\n";
+		}
+		return $result;
+	}
+	
 	/** 
 	* Get the request object
 	*/
