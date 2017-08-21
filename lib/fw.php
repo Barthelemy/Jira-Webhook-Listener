@@ -38,6 +38,9 @@ class JWLFW{
 			case 'jira:issue_updated' :
 				$this->issueUpdate();
 				break;
+			case 'comment_created' : 
+				$this->newComment();
+				break;
 			default:
 				$this->anyRequest();
 		}
@@ -62,8 +65,25 @@ class JWLFW{
 	}
 
 
-
 	/** Handle notification of a new issue
+	 *
+	 */
+	private function newComment(){
+	
+		if (!$this->loadProjConfig() || (!in_array('newcomment',$this->fireon) && !in_array('*',$this->fireon))){
+			return false;
+		}
+	
+		$results = array();
+		foreach ($this->config['actions'] as $action => $value){
+			$results[] = $this->fireAction($action,$value,'newcomment');
+		}
+	
+		return $results;
+	}
+	
+
+	/** Handle notification of an issue's modification
 	*
 	*/
 	private function issueUpdate(){

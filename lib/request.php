@@ -84,6 +84,31 @@ class JWLRequest{
 	function getIssueResolved(){
 		return $this->request->issue->fields->resolved;
 	}
+
+	function getCommentBody() {
+		return $this->request->comment->body;
+	}
+	
+	function getCommentId() {
+		return $this->request->comment->id;
+	}
+
+	function getCommentAuthor() {
+	  return $this->request->comment->author->displayName;
+	}
+	
+	function getCommentCreated() {
+		return $this->request->comment->created;
+	}
+	
+	function getCommentUrl() {
+		// https://alice.its.cern.ch/jira/rest/api/2/issue/46609/comment/201903
+		// https://alice.its.cern.ch/jira/browse/DATE-343?focusedCommentId=201904&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-201904
+		// first part  + browse + issue_key + blabla + comment_id + blabla + comment_id
+		$pieces = explode("/rest/api", $this->request->comment->self);
+		$url = $pieces[0] . "/browse/" . $_GET["issue_key"] . "?focusedCommentId=" . $this->getCommentId() . "&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-" . $this->getCommentId();
+		return $url;
+	}
 	
 
 	/** 

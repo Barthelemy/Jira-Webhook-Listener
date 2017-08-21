@@ -36,7 +36,7 @@ class FWLemailAction {
 	 * TODO
 	 */
 	private function loadPluginConfig() {
-		require_once 'config/email.action.config.php';
+ 		require_once 'config/email.action.config.php';
 		$this->email_configurations = $email_configurations;
 	}
 	
